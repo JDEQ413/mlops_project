@@ -28,7 +28,7 @@ async def healthcheck():
 
 
 @app.post('/predict')
-def extract_name(housepricing_features: HousePricing):
+def predictor(housepricing_features: HousePricing):
     predictor = ModelAPIPredictor("C:/Users/usuario/Documents/GitHub/mlops_project/mlops_project/models/random_forest_output.pkl")
     X = [
         housepricing_features.crim,

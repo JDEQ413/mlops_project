@@ -1,10 +1,10 @@
 """Main module."""
 
-import os
 
 from load.load_data import DataRetriever
 
-DATASETS_DIR = './datasets/'
+MAIN_DIR = './mlops_project/'
+DATASETS_DIR = 'data/'
 KAGGLE_URL = "https://www.kaggle.com/datasets/fedesoriano/the-boston-houseprice-data"
 KAGGLE_LOCAL_DIR = KAGGLE_URL.split('/')[-1]
 DATA_RETRIEVED = 'data.csv'
@@ -28,10 +28,10 @@ droped_rows_index_list = []
 
 if __name__ == "__main__":
 
-    print(os.getcwd())
-    os.chdir(FULL_USER_DIR)
+    # print(os.getcwd())
+    # os.chdir(FULL_USER_DIR)
 
     # Retrieve data
-    data_retriever = DataRetriever([DATASETS_DIR, KAGGLE_URL, KAGGLE_LOCAL_DIR, DATA_RETRIEVED])
+    data_retriever = DataRetriever([MAIN_DIR, DATASETS_DIR, KAGGLE_URL, KAGGLE_LOCAL_DIR, DATA_RETRIEVED])
     result = data_retriever.retrieve_data()
-    print(result)
+    # print(result)

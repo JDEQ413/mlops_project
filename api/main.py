@@ -2,15 +2,16 @@
 import os
 import sys
 
-from api.models.models import HousePricing
 from fastapi import FastAPI
-from predictor.api_predict import ModelAPIPredictor
 from starlette.responses import JSONResponse
+
+from api.models.models import HousePricing
+from mlops_project.predictor.api_predict import ModelAPIPredictor
 
 # Add the parent directory to sys.path
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(current_dir, ".."))
-sys.path.append(parent_dir)
+sys.path.append(current_dir)
 
 
 app = FastAPI()

@@ -12,7 +12,7 @@ DATASETS_DIR = MAIN_DIR + 'data/'
 KAGGLE_URL = "https://www.kaggle.com/datasets/fedesoriano/the-boston-houseprice-data"
 KAGGLE_LOCAL_DIR = KAGGLE_URL.split('/')[-1]
 DATA_RETRIEVED = 'data.csv'
-FULL_USER_DIR = "Users/usuario/Documents/GitHub/mlops_project/mlops_project/"
+FULL_USER_DIR = "Users/usuario/Documents/GitHub/mlops_project/"
 
 COLUMNS = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT', 'MEDV']
 TARGET = 'MEDV'

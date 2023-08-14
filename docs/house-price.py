@@ -109,16 +109,6 @@ def persist_model():
     print("Model stored in: " + TRAINED_MODEL_DIR + PIPELINE_SAVE_FILE)
 
 
-def invsere_standard_scaler(value):
-    # Returns a standard scaled value to its original value.
-
-    scaler = StandardScaler()
-    scaler.fit(value)
-    value = scaler.inverse_transform(value)
-
-    return value
-
-
 # CUSTOM TRANSFORMERS
 
 class MissingIndicator(BaseEstimator, TransformerMixin):

@@ -21,7 +21,7 @@ SELECTED_FEATURES = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', '
 SEED_SPLIT = 42
 SEED_MODEL = 102
 
-TRAINED_MODEL_DIR = 'trained_models/'
+TRAINED_MODEL_DIR = MAIN_DIR + 'models/'
 PIPELINE_NAME = 'random_forest'
 PIPELINE_SAVE_FILE = f'{PIPELINE_NAME}_output.pkl'
 
@@ -46,4 +46,16 @@ if __name__ == "__main__":
     df_transformed = housepricing_pipeline.PIPELINE.fit_transform(raw_df)
     X_train, X_test, y_train, y_test = train_test_split(df_transformed.drop(TARGET, axis=1), df_transformed[TARGET], test_size=0.2, random_state=SEED_SPLIT)
 
-    print(X_train)
+    # Creating and training model
+    RF_model = housepricing_pipeline.fit_random_forest(X_train=X_train, y_train=y_train)
+    RF_model.fit(X_train, y_train)
+
+    # Model making a prediction on test data
+    y_pred = RF_model.predict(X_test)
+    RF_scores = housepricing_pipeline.get_evaluation_metrics(model=RF_model, X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, y_pred=y_pred)
+    print(RF_scores)
+
+    # Persist the model
+    housepricing_pipeline.persist_model(model=RF_model, trained_model_dir=TRAINED_MODEL_DIR, file_save_name=PIPELINE_SAVE_FILE)
+
+    # Predictions

@@ -1,6 +1,14 @@
+import os
+from pathlib import Path
+
+import joblib
+import numpy as np
+import pandas as pd
 from preprocess.preprocess_data import (DropMissing, IQR_DropOutliers,
                                         MissingIndicator, Standard_Scaler)
+from sklearn import metrics
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import cross_val_score
 from sklearn.pipeline import Pipeline
 
 
@@ -57,3 +65,34 @@ class HousepricingDataPipeline:
         random_forest = RandomForestRegressor(n_estimators=100, random_state=self.SEED_MODEL)
         random_forest.fit(X_train, y_train)
         return random_forest
+
+    def get_evaluation_metrics(self, model, X_train, y_train, X_test, y_test, y_pred):
+        cv_score = cross_val_score(estimator=model, X=X_train, y=y_train, cv=10)
+
+        # Calculating Adjusted R-squared
+        r2 = model.score(X_test, y_test)
+        # Number of observations is the shape along axis 0
+        n = X_test.shape[0]
+        # Number of features (predictors, p) is the shape along axis 1
+        p = X_test.shape[1]
+        # Adjusted R-squared formula
+        adjusted_r2 = 1 - (1 - r2) * (n - 1) / (n - p - 1)
+        RMSE = np.sqrt(metrics.mean_squared_error(y_test, y_pred))
+        R2 = model.score(X_test, y_test)
+        CV_R2 = cv_score.mean()
+
+        scores_df = pd.DataFrame(data=[[R2, adjusted_r2, CV_R2, RMSE]], columns=['R2 Score', 'Adjusted R2 Score', 'Cross Validated R2 Score', 'RMSE'])
+        scores_df.insert(0, 'Model', 'Random Forest')
+
+        return scores_df
+
+    def persist_model(self, model, trained_model_dir, file_save_name):
+        # Saves the model recently trained
+
+        if not os.path.isdir(trained_model_dir):   # Searches for the default models folder
+            os.mkdir(Path(trained_model_dir))
+        if os.path.isdir(trained_model_dir):
+            joblib.dump(model, trained_model_dir + file_save_name)
+
+        print()
+        print("Model stored in: " + trained_model_dir + file_save_name)

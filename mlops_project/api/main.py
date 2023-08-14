@@ -2,8 +2,8 @@
 import os
 import sys
 
+from api.models.models import HousePricing
 from fastapi import FastAPI
-from models.models import HousePricing
 from predictor.api_predict import ModelAPIPredictor
 from starlette.responses import JSONResponse
 

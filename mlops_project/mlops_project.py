@@ -1,6 +1,7 @@
 """Main module."""
 
 from load.load_data import DataRetriever
+from predictor.model_predictor import ModelPredictor
 from sklearn.model_selection import train_test_split
 from train.train_data import HousepricingDataPipeline
 
@@ -50,12 +51,10 @@ if __name__ == "__main__":
     RF_model = housepricing_pipeline.fit_random_forest(X_train=X_train, y_train=y_train)
     RF_model.fit(X_train, y_train)
 
-    # Model making a prediction on test data
-    y_pred = RF_model.predict(X_test)
-    RF_scores = housepricing_pipeline.get_evaluation_metrics(model=RF_model, X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, y_pred=y_pred)
-    print(RF_scores)
-
-    # Persist the model
-    housepricing_pipeline.persist_model(model=RF_model, trained_model_dir=TRAINED_MODEL_DIR, file_save_name=PIPELINE_SAVE_FILE)
+    # Model making a prediction on test data, and persisting the model
+    predictor = ModelPredictor(model=RF_model, X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, trained_model_dir=TRAINED_MODEL_DIR, file_save_name=PIPELINE_SAVE_FILE)
+    predictor.predict()
+    print(predictor.get_evaluation_metrics())
+    predictor.persist_model()
 
     # Predictions

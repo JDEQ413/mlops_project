@@ -1,5 +1,7 @@
 """Main module."""
 
+import os
+
 from load.load_data import DataRetriever
 from predictor.model_predictor import ModelPredictor
 from sklearn.model_selection import train_test_split
@@ -30,8 +32,8 @@ droped_rows_index_list = []
 
 if __name__ == "__main__":
 
-    # print(os.getcwd())
-    # os.chdir(FULL_USER_DIR)
+    print(os.getcwd())
+    os.chdir("C:/" + FULL_USER_DIR)
 
     # Retrieve data
     data_retriever = DataRetriever([DATASETS_DIR, KAGGLE_URL, KAGGLE_LOCAL_DIR, DATA_RETRIEVED])
@@ -57,4 +59,14 @@ if __name__ == "__main__":
     print(predictor.get_evaluation_metrics())
     predictor.persist_model()
 
-    # Predictions
+    # Predictions with new information
+
+    # new_data_pred = pd.DataFrame([[0.06905, 0.0, 2.18, 0, 0.458, 7.147, 54.2, 6.0622, 3, 222.0, 18.7, 396.90, 5.33]])
+    # predictor.make_prediction(X_values=new_data_pred, features=FEATURES, selected_features=SELECTED_FEATURES)
+
+    # new_data_pred = pd.DataFrame([[0.02729, 0.0, 7.07, 0, 0.469, 7.185, 61.1, 4.9671, 2, 242.0, 17.8, 392.83, 4.03]])
+    # predictor.make_prediction(X_values=new_data_pred, features=FEATURES, selected_features=SELECTED_FEATURES)
+
+    # new_data = X_test.tail(10)
+    # predictor.make_prediction(X_values=new_data, selected_features=SELECTED_FEATURES)
+    # print([y_test.tail(10)])

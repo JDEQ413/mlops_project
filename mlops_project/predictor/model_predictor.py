@@ -28,6 +28,7 @@ class ModelPredictor:
         predict:
         get_evaluation_metrics:
         persits_model:
+        make_prediction:
     """
 
     def __init__(self, model, X_train, y_train, X_test, y_test, trained_model_dir, file_save_name):
@@ -72,3 +73,19 @@ class ModelPredictor:
 
         print()
         print("Model stored in: " + self.trained_model_dir + self.file_save_name)
+
+    def make_prediction(self, X_values, selected_features, features=None):
+        """
+        Makes predictions with the model trained with values provided
+
+        Parameters:
+            X_values (pd.DataFrame):
+            features (list):
+            selected_features (list):
+        """
+        if features is not None:
+            X_values.columns = features
+        X_values = X_values[selected_features].copy()
+
+        print()
+        print(self.model.predict(X_values))

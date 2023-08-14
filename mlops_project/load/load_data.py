@@ -3,6 +3,7 @@ import shutil
 from pathlib import Path
 
 import opendatasets as od
+import pandas as pd
 
 
 class DataRetriever():
@@ -27,20 +28,14 @@ class DataRetriever():
     """
 
     def __init__(self, paths_list: list) -> None:
-        self.MAIN_DIR = paths_list[0]
-        self.DATASETS_DIR = paths_list[1]
-        self.KAGGLE_URL = paths_list[2]
-        self.KAGGLE_LOCAL_DIR = paths_list[3]
-        self.DATA_RETRIEVED = paths_list[4]
-        print("MAIN_DIR:" + self.MAIN_DIR)
-        print("DATASETS_DIR:" + self.DATASETS_DIR)
-        print("KAGGLE_URL:" + self.KAGGLE_URL)
-        print("KAGGLE_LOCAL_DIR:" + self.KAGGLE_LOCAL_DIR)
-        print("DATA_RETRIEVED:" + self.DATA_RETRIEVED)
-        print()
+        self.DATASETS_DIR = paths_list[0]
+        self.KAGGLE_URL = paths_list[1]
+        self.KAGGLE_LOCAL_DIR = paths_list[2]
+        self.DATA_RETRIEVED = paths_list[3]
 
     def retrieve_data(self):
         # Downloads dataset from kaggle with pre-defined structure (folder)
+
         od.download(self.KAGGLE_URL, force=True)
 
         # Finds the recently downloaded file
@@ -55,14 +50,18 @@ class DataRetriever():
         print("Dataset downloaded: " + path_new_file)
 
         # Moves the file to default data directory instead of downloaded folder
-        if os.path.isfile(self.MAIN_DIR + self.DATASETS_DIR + name_new_file):            # Searches for the new file downloaded inside default data directory
-            os.remove(self.MAIN_DIR + self.DATASETS_DIR + name_new_file)                 # ,and deletes it
-        if os.path.isfile(self.MAIN_DIR + self.DATASETS_DIR + self.DATA_RETRIEVED):           # Searches for any old file with FILE_NAME specified
-            os.remove(self.MAIN_DIR + self.DATASETS_DIR + self.DATA_RETRIEVED)                # ,and deletes it too
-        os.rename(path_new_file, self.MAIN_DIR + self.DATASETS_DIR + self.DATA_RETRIEVED)     # Finally, moves downloaded file to default datasets folder
-        print("And stored in: " + self.MAIN_DIR + self.DATASETS_DIR + self.DATA_RETRIEVED)
+        if os.path.isfile(self.DATASETS_DIR + name_new_file):            # Searches for the new file downloaded inside default data directory
+            os.remove(self.DATASETS_DIR + name_new_file)                 # ,and deletes it
+        if os.path.isfile(self.DATASETS_DIR + self.DATA_RETRIEVED):           # Searches for any old file with FILE_NAME specified
+            os.remove(self.DATASETS_DIR + self.DATA_RETRIEVED)                # ,and deletes it too
+        os.rename(path_new_file, self.DATASETS_DIR + self.DATA_RETRIEVED)     # Finally, moves downloaded file to default datasets folder
+        print("And stored in: " + self.DATASETS_DIR + self.DATA_RETRIEVED)
         shutil.rmtree(self.KAGGLE_LOCAL_DIR)
 
         print()
+
+    def load_data(self) -> pd.DataFrame:
+        df = pd.read_csv(self.DATASETS_DIR + self.DATA_RETRIEVED, delimiter=",")
+        return df
 
 # Usage example:

@@ -1,10 +1,11 @@
 """Main module."""
 
-
 from load.load_data import DataRetriever
+from sklearn.model_selection import train_test_split
+from train.train_data import HousepricingDataPipeline
 
 MAIN_DIR = './mlops_project/'
-DATASETS_DIR = 'data/'
+DATASETS_DIR = MAIN_DIR + 'data/'
 KAGGLE_URL = "https://www.kaggle.com/datasets/fedesoriano/the-boston-houseprice-data"
 KAGGLE_LOCAL_DIR = KAGGLE_URL.split('/')[-1]
 DATA_RETRIEVED = 'data.csv'
@@ -32,6 +33,17 @@ if __name__ == "__main__":
     # os.chdir(FULL_USER_DIR)
 
     # Retrieve data
-    data_retriever = DataRetriever([MAIN_DIR, DATASETS_DIR, KAGGLE_URL, KAGGLE_LOCAL_DIR, DATA_RETRIEVED])
+    data_retriever = DataRetriever([DATASETS_DIR, KAGGLE_URL, KAGGLE_LOCAL_DIR, DATA_RETRIEVED])
     result = data_retriever.retrieve_data()
-    # print(result)
+
+    # Read data
+    raw_df = data_retriever.load_data()
+    print(raw_df)
+
+    # House-pricing Pipeline
+    housepricing_pipeline = HousepricingDataPipeline(features=FEATURES, target=TARGET, n=1, seed_model=SEED_MODEL)
+    housepricing_pipeline.create_pipeline()
+    df_transformed = housepricing_pipeline.PIPELINE.fit_transform(raw_df)
+    X_train, X_test, y_train, y_test = train_test_split(df_transformed.drop(TARGET, axis=1), df_transformed[TARGET], test_size=0.2, random_state=SEED_SPLIT)
+
+    print(X_train)

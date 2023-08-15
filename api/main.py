@@ -13,6 +13,10 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(current_dir, ".."))
 sys.path.append(current_dir)
 
+relative_path = "mlops_project\\models"
+model_path = os.path.join(os.path.abspath(parent_dir), relative_path)
+# relative_path = os.path.relpath("C:/Users/usuario/Documents/GitHub/mlops_project/mlops_project/models/random_forest_output.pkl",current_dir)
+
 
 app = FastAPI()
 
@@ -29,7 +33,7 @@ async def healthcheck():
 
 @app.post('/predict')
 def predictor(housepricing_features: HousePricing):
-    predictor = ModelAPIPredictor("C:/Users/usuario/Documents/GitHub/mlops_project/mlops_project/models/random_forest_output.pkl")
+    predictor = ModelAPIPredictor(model_path + "\\random_forest_output.pkl")
     X = [
         housepricing_features.crim,
         housepricing_features.zn,

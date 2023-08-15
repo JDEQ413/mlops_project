@@ -6,6 +6,7 @@ seaborn==0.12.2
 numpy==1.22.3
 statsmodels==0.13.5
 opendatasets
+pytest==7.2.2
 pre-commit==3.3.3
 autopep8==2.0.2
 flake8==6.1.0

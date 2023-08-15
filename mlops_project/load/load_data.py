@@ -33,7 +33,7 @@ class DataRetriever():
         self.KAGGLE_LOCAL_DIR = paths_list[2]
         self.DATA_RETRIEVED = paths_list[3]
 
-    def retrieve_data(self):
+    def retrieve_data(self) -> bool:
         # Downloads dataset from kaggle with pre-defined structure (folder)
 
         od.download(self.KAGGLE_URL, force=True)
@@ -43,7 +43,7 @@ class DataRetriever():
             paths = sorted(Path(self.KAGGLE_LOCAL_DIR + "/").iterdir(), key=os.path.getmtime)
         else:
             print("Directory could not be found: " + self.KAGGLE_LOCAL_DIR)
-            return
+            return False
         path_new_file = str(paths[-1])
         name_new_file = str(path_new_file).split('\\')[-1]
         path_new_file = "./" + str(path_new_file).split('\\')[0] + "/" + str(path_new_file).split('\\')[-1]
@@ -58,7 +58,7 @@ class DataRetriever():
         print("And stored in: " + self.DATASETS_DIR + self.DATA_RETRIEVED)
         shutil.rmtree(self.KAGGLE_LOCAL_DIR)
 
-        print()
+        return True
 
     def load_data(self) -> pd.DataFrame:
         df = pd.read_csv(self.DATASETS_DIR + self.DATA_RETRIEVED, delimiter=",")

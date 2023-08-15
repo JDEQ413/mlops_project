@@ -75,8 +75,13 @@ This the baseline of the project.
 
 ## Unit tests
 
-* Unit tests developed to acomplish basic validations on the project.
-  * Folder: [tests](https://github.com/JDEQ413/mlops_project/tree/main/tests)
+* Unit tests are developed to acomplish basic validations on specific functionalities of the project.
+  * Library: pytest
+    * Install, move to project directory: ```pip install pytest``` or ```pip install -r requirements-310.txt```
+  * Code folder: [tests](https://github.com/JDEQ413/mlops_project/tree/main/tests)
+  * Run tests, terminal or console:
+    * Individual test: ```pytest tests/unit_tests.py::test_csv_file_existence -v```
+    * Multiple tests: ```pytest tests/unit_tests.py -v```
 
 ## Pre-Commits
 

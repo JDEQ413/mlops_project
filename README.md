@@ -166,7 +166,7 @@ This the baseline of the project.
 **Test predictions**
 
 * **1.** To test predictions using the ```predict``` endpoint, give the folloing values.
-        ```bash
+        ```
         {
         "crim": 0.06905,
         "zn": 0.0,
@@ -185,7 +185,7 @@ This the baseline of the project.
         ```
   
 * **2.** For a second test predictions use the folloing values.
-        ```bash
+        ```
         {
         "crim": 0.02729,
         "zn": 0.0,
